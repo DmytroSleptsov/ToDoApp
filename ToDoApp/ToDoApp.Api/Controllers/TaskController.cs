@@ -17,7 +17,7 @@ namespace ToDoApp.Api.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<ToDoTask>>> GetAllTasks()
-        {
+       {
             var tasks = await _taskService.GetAllTasks();
             return Ok(tasks);
         }

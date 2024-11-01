@@ -1,0 +1,20 @@
+<div id="wrapper">
+    <h1>Update Task</h1>
+    <form (ngSubmit)="saveTask()" #taskform="ngForm">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <br>
+            <input type="text" id="name" [(ngModel)]="task.name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <br>
+            <textarea id="description" [(ngModel)]="task.description" name="description"></textarea>
+        </div>
+        <div id="checkbox-group">
+            <input type="checkbox" [(ngModel)]="task.isCompleted" name="isCompleted" >
+            <label for="isCompleted">Completed</label>
+        </div>
+        <button type="submit">Save</button>
+    </form>
+</div>

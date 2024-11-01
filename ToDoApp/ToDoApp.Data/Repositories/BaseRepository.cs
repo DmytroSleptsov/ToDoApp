@@ -39,7 +39,14 @@ namespace ToDoApp.Data.Repositories
 
         public async Task Delete(int id)
         {
-            _dbContext.Remove(id);
+            var task = await _dbContext.Set<T>().FindAsync(id);
+            if (task == null)
+            {
+                throw new KeyNotFoundException($"Task with id {id} not found.");
+            }
+
+            _dbContext.Remove(task);
+
             await _dbContext.SaveChangesAsync();
         }
     }

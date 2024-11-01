@@ -1,0 +1,16 @@
+<div id="wrapper">
+    <a [routerLink]="['/tasks/add']">Add</a>
+
+    <div id="list">
+        <div *ngFor="let task of tasks" class="task" (click)="openTask(task.id)">
+            <div>
+                <p id="name">{{task.name}}</p>
+                <p id="description">{{task.description}}</p>
+            </div>
+            <div class="actions">
+                <button (click)="removeTask(task.id, $event)">Remove</button>
+                <input type="checkbox" [checked]="task.isCompleted" (click)="completeTask(task.id, $event)">
+            </div>
+        </div>
+    </div>
+</div>
