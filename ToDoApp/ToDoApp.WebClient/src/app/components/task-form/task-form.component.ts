@@ -1,39 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Task } from '../../models/task.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../services/task.service';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.scss'
 })
-export class TaskFormComponent implements OnInit {
+export class TaskFormComponent implements OnInit, OnDestroy {
 
-  task: Task = { id: 0, name: '', description: '', isCompleted: false };
+  taskForm: FormGroup;
+  private destroy$ = new Subject<void>();
 
   constructor(
+    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private taskService: TaskService,
     private router: Router,
   ) {
-    
+    this.taskForm = formBuilder.group({
+      id: [null],
+      name: ['', Validators.required],
+      description: [''],
+      isCompleted: [false]
+    });
   }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.taskService.getTask(+id!).subscribe(task => {
-        this.task = task;
-    })
+    this.taskService.getTask(+id!)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(task => {
+        this.taskForm.patchValue(task);
+      })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   saveTask(): void {
-    this.taskService.updateTask(this.task.id, this.task).subscribe(task =>{
-      this.router.navigate([''])
-    });
+    if (this.taskForm.valid) {
+      let task: Task = this.taskForm.value;
+      this.taskService.updateTask(task.id, task)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.router.navigate([''])
+        });
+    }
   }
 }

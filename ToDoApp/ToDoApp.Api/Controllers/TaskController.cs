@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using ToDoApp.Api.DTOs;
 using ToDoApp.Core.Services.Interfaces;
 using ToDoTask = ToDoApp.Data.Models.Task;
 
@@ -9,21 +11,26 @@ namespace ToDoApp.Api.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _taskService;
+        private readonly IMapper _mapper;
 
-        public TaskController(ITaskService taskService) 
+        public TaskController(ITaskService taskService, IMapper mapper) 
         {
             _taskService = taskService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ToDoTask>>> GetAllTasks()
+        public async Task<ActionResult<List<TaskDto>>> GetAllTasks()
        {
             var tasks = await _taskService.GetAllTasks();
-            return Ok(tasks);
+
+            var taskDtos = _mapper.Map<List<TaskDto>>(tasks);
+
+            return Ok(taskDtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ToDoTask>> GetTaskById(int id)
+        public async Task<ActionResult<TaskDto>> GetTaskById(int id)
         {
             var task = await _taskService.GetTaskById(id);
             if (task == null)
@@ -31,23 +38,33 @@ namespace ToDoApp.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(task);
+            var taskDto = _mapper.Map<TaskDto>(task);
+
+            return Ok(taskDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateTask(ToDoTask task)
+        public async Task<ActionResult> CreateTask(CreateTaskDto createTaskDto)
         {
+            var task = _mapper.Map<ToDoTask>(createTaskDto);
+
             await _taskService.CreateTask(task);
-            return CreatedAtAction(nameof(GetTaskById), new { id = task.Id }, task);
+
+            var taskDto = _mapper.Map<TaskDto>(task);
+
+            return CreatedAtAction(nameof(GetTaskById), new { id = taskDto.Id }, taskDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateTask(int id, ToDoTask task)
+        public async Task<ActionResult> UpdateTask(int id, TaskDto taskDto)
         {
-            if (id != task.Id) 
+            var task = await _taskService.GetTaskById(id);
+            if (task == null)
             {
-                return BadRequest();
+                return NotFound();
             }
+
+            _mapper.Map(taskDto, task);
 
             await _taskService.UpdateTask(task);
             return NoContent();
@@ -56,6 +73,12 @@ namespace ToDoApp.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTask(int id)
         {
+            var task = await _taskService.GetTaskById(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
             await _taskService.DeleteTask(id);
             return NoContent();
         }

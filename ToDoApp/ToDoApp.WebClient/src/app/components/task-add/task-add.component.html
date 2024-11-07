@@ -1,15 +1,16 @@
 <div id="wrapper">
     <h1>Add Task</h1>
-    <form (ngSubmit)="onSubmit()" #taskform="ngForm">
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="name">Name</label>
-            <br>
-            <input type="text" id="name" [(ngModel)]="task.name" name="name" required>
+            <input type="text" id="name" name="name" formControlName="name">
+            <div *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched">
+                <small class="error" *ngIf="taskForm.get('name')?.errors?.['required']">Name is required.</small>
+            </div>
         </div>
         <div class="form-group">
             <label for="description">Description</label>
-            <br>
-            <textarea id="description" [(ngModel)]="task.description" name="description"></textarea>
+            <textarea id="description" name="description" formControlName="description"></textarea>
         </div>
         <button type="submit">Save</button>
     </form>

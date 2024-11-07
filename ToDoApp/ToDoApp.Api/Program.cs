@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ToDoApp.Api.Mapping;
 using ToDoApp.Core.Services;
 using ToDoApp.Core.Services.Interfaces;
 using ToDoApp.Data;
@@ -17,6 +18,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
