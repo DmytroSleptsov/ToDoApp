@@ -1,91 +1,28 @@
-#wrapper {
-    width: 600px;
-    margin: auto;
+input[type="checkbox"] {
+    height: 38px;
+    width: 38px;
+    cursor: pointer;
 }
 
-#list {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    display: flex;
-    align-content: start;
-    flex-direction: column;
+.wrapper {
+    margin-top: 80px;
+}
 
-    .task {
-        margin-bottom: 10px;
-        border-radius: 10px;
-        background-color: aqua;
-        border: 2px solid aqua;
-        padding: 0 20px;
-        display: flex;
-        transition: all 0.3s;
-        box-sizing: border-box;
-
-        &:hover {
-            background-color: white;
-        }
-
-        #name {
-            font-size: 30px;
-            margin-bottom: 0;
-        }
-
-        button {
-            height: 30px;
-            margin-left: auto;
-            border-radius: 5px;
-            background-color: grey;
-            color: white;
-            border: 0;
-            transition: all 0.3s;
-
-            &:hover {
-                background-color: lightgrey;
-            }
-
-            &:active {
-                background-color: black;
-            }
-        }
-
-        input[type='checkbox'] {
-            width: 30px;
-            height: 30px;
-            accent-color: grey;
-
-            &:hover {
-                accent-color: lightgrey;
-            }
-        }
-
-        .actions {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+.break-word {
+    @media (min-width: 1200px) {
+        width: 450px;
+    }
+    @media (min-width:500px) and (max-width: 1200px) {
+        width: 300px;
     }
 }
 
-#wrapper {
-    a {
-        background-color: grey;
-        display: inline-block;
-        color: white;
-        text-decoration: none;
-        padding: 10px 20px;
-        font-size: 20px;
-        border-radius: 10px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        transition: all 0.3s;
+.card {
+    transition: all 0.3s;
+    cursor: pointer;
 
-        &:hover {
-            background-color: lightgrey;
-        }
-
-        &:active {
-            background-color: black;
-        }
+    &:hover {
+        background-color: #abf7b1;
+        transform: scale(1.05);
     }
 }

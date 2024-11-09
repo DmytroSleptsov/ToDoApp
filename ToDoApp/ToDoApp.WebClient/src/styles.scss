@@ -1,8 +1,5 @@
-:root {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: aqua;
-}
+$primary: #008631;
+$secondary: #008631;
 
-.error{
-    color: red;
-}
+
+@import "bootstrap/scss/bootstrap";

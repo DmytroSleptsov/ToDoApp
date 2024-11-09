@@ -15,8 +15,14 @@ namespace ToDoApp.Data.Repositories
 
         public async Task<T> GetById(int id)
         {
-            return await _dbContext.Set<T>()
+            var entity = await _dbContext.Set<T>()
                 .FindAsync(id);
+            if (entity == null)
+            {
+                throw new InvalidOperationException($"{typeof(T).Name} with id {id} not found.");
+            }
+
+            return entity;
         }
 
         public async Task<List<T>> GetAll()
@@ -39,13 +45,13 @@ namespace ToDoApp.Data.Repositories
 
         public async Task Delete(int id)
         {
-            var task = await _dbContext.Set<T>().FindAsync(id);
-            if (task == null)
+            var entity = await _dbContext.Set<T>().FindAsync(id);
+            if (entity == null)
             {
-                throw new KeyNotFoundException($"Task with id {id} not found.");
+                throw new InvalidOperationException($"{typeof(T).Name} with id {id} not found.");
             }
 
-            _dbContext.Remove(task);
+            _dbContext.Remove(entity);
 
             await _dbContext.SaveChangesAsync();
         }
