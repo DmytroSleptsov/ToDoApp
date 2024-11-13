@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ToDoApp.Api.DTOs;
+using ToDoApp.Data.Models;
 using ToDoTask = ToDoApp.Data.Models.Task;
 
 namespace ToDoApp.Api.Mapping
@@ -11,6 +12,8 @@ namespace ToDoApp.Api.Mapping
             CreateMap<ToDoTask, TaskDto>();
             CreateMap<CreateTaskDto, ToDoTask>();
             CreateMap<TaskDto, ToDoTask>();
+
+            CreateMap<RegisterRequest, User>();
         }
     }
 }
