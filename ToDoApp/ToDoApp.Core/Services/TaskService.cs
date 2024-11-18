@@ -22,9 +22,9 @@ namespace ToDoApp.Core.Services
             await _taskRepository.Delete(id);
         }
 
-        public async Task<List<Data.Models.Task>> GetAllTasks()
+        public async Task<List<Data.Models.Task>> GetUserAllTasks(int userId)
         {
-            return await _taskRepository.GetAll();
+            return await _taskRepository.GetTasksByUser(userId);
         }
 
         public async Task<Data.Models.Task> GetTaskById(int id)

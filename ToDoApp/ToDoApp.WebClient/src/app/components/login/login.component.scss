@@ -1,0 +1,27 @@
+.login-card {
+    width: 100%;
+    max-width: 400px;
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        border: none;
+
+        &:hover {
+            background-color: #0b5ed7;
+        }
+    }
+
+    .text-danger {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-card {
+        padding: 1.5rem;
+    }
+}

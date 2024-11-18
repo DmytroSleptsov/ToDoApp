@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using ToDoApp.Api.DTOs;
 using ToDoApp.Core.Services.Interfaces;
 using ToDoTask = ToDoApp.Data.Models.Task;
@@ -7,6 +9,7 @@ using ToDoTask = ToDoApp.Data.Models.Task;
 namespace ToDoApp.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class TaskController : ControllerBase
     {
@@ -21,11 +24,11 @@ namespace ToDoApp.Api.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<TaskDto>>> GetAllTasks()
-       {
-            var tasks = await _taskService.GetAllTasks();
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var tasks = await _taskService.GetUserAllTasks(int.Parse(userId!));
 
             var taskDtos = _mapper.Map<List<TaskDto>>(tasks);
-
             return Ok(taskDtos);
         }
 
@@ -44,14 +47,16 @@ namespace ToDoApp.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateTask(CreateTaskDto createTaskDto)
+        public async Task<ActionResult> CreateTask([FromBody]CreateTaskDto createTaskDto)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             var task = _mapper.Map<ToDoTask>(createTaskDto);
+            task.UserId = int.Parse(userId!);
 
             await _taskService.CreateTask(task);
 
             var taskDto = _mapper.Map<TaskDto>(task);
-
             return CreatedAtAction(nameof(GetTaskById), new { id = taskDto.Id }, taskDto);
         }
 

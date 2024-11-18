@@ -24,7 +24,7 @@ namespace ToDoApp.Api.Controllers
         {
             var user = _mapper.Map<User>(request);
             await _authService.RegisterAsync(user, request.Password);
-            return Ok("User registered successfully.");
+            return Ok(new { message = "User registered successfully" });
         }
 
         [HttpPost("login")]
