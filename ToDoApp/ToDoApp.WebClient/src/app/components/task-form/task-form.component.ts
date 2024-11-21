@@ -47,7 +47,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  saveTask(): void {
+  onSaveTask(): void {
     if (this.taskForm.valid) {
       let task: Task = this.taskForm.value;
       this.taskService.updateTask(task.id, task)
