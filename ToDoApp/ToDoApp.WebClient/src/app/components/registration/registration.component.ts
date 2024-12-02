@@ -23,15 +23,19 @@ export class RegistrationComponent implements OnDestroy {
     private router: Router,
   ) {
     this.registerForm = formBuilder.group({
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      surname: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [
+        Validators.required, 
+        Validators.minLength(6), 
+        Validators.pattern('(?=.*[A-Z])(?=.*[0-9]).*'),
+      ]],
       confirmPassword: ['', Validators.required]
     },
-      {
-        validators: passwordMatchValidator('password', 'confirmPassword'),
-      });
+    {
+      validators: passwordMatchValidator('password', 'confirmPassword'),
+    });
   }
 
   onRegister(): void {

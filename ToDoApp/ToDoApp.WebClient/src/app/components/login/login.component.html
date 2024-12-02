@@ -1,4 +1,4 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="container d-flex justify-content-center align-items-center mt-5">
     <div class="card shadow-lg p-4 login-card">
         <h2 class="text-center mb-4">Login</h2>
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
@@ -6,17 +6,26 @@
                 <label for="email" class="form-label">Email</label>
                 <input type="email" id="email" class="form-control" formControlName="email"
                     placeholder="Enter your email" />
-                <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
-                    Email is required.
+                <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+                    <div *ngIf="loginForm.get('email')?.hasError('required')" class="text-danger">
+                        Email is required.
+                    </div>
+                    <div *ngIf="loginForm.get('email')?.hasError('email')" class="text-danger">
+                        Enter a valid email address.
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" class="form-control" formControlName="password"
+                <input type="password" maxlength="50" id="password" class="form-control" formControlName="password"
                     placeholder="Enter your password" />
-                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-                    class="text-danger">
-                    Password is required.
+                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                    <div *ngIf="loginForm.get('password')?.hasError('required')" class="text-danger">
+                        Password is required.
+                    </div>
+                    <div *ngIf="loginForm.get('password')?.hasError('minlength')" class="text-danger">
+                        Password must be at least 6 characters.
+                    </div>
                 </div>
             </div>
             <div class="d-grid">

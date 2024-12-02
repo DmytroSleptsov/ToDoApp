@@ -22,8 +22,8 @@ export class LoginComponent implements OnDestroy {
     private router: Router,
   ) {
     this.loginForm = formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 

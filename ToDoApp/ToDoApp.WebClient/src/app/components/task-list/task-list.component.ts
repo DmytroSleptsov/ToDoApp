@@ -35,7 +35,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  removeTask(id: number, event: Event): void {
+  onRemoveTask(id: number, event: Event): void {
     event.stopPropagation();
 
     this.taskService.deleteTask(id)
@@ -45,11 +45,11 @@ export class TaskListComponent implements OnInit, OnDestroy {
       });
   }
 
-  openTask(id: number) {
+  onOpenTask(id: number) {
     this.router.navigate(['/tasks', id]);
   }
 
-  completeTask(id: number, event: Event): void {
+  onCompleteTask(id: number, event: Event): void {
     event.stopPropagation();
 
     let task = this.tasks.find(task => task.id == id);
