@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
-import { passwordMatchValidator } from '../../validators/password.match.validator';
+import { passwordMatchValidator } from '../../../validators/password.match.validator';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
