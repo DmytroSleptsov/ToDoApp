@@ -5,6 +5,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors } fro
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { TokenInterceptor } from './token.interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 const interceptors = [
   { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
@@ -12,6 +14,12 @@ const interceptors = [
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimations(),
+    provideToastr({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     provideZoneChangeDetection({
       eventCoalescing: true
     }),

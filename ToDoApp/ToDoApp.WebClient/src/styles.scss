@@ -3,3 +3,22 @@ $secondary: #008631;
 
 
 @import "bootstrap/scss/bootstrap";
+
+.toast-error {
+    background-color: #dc3545 !important;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.toast {
+    padding: 10px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.toast-top-right {
+    top: 70px !important;
+    right: 10px !important;
+}

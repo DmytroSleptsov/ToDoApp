@@ -1,9 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent implements OnDestroy {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private toastr: ToastrService
   ) {
     this.loginForm = formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -32,10 +34,21 @@ export class LoginComponent implements OnDestroy {
       return;
     }
 
-    this.authService.login(this.loginForm.value).subscribe((response) => {
-      this.authService.setToken(response.token);
-      this.router.navigate(['']);
-    });
+    this.authService.login(this.loginForm.value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.authService.setToken(response.token);
+          this.router.navigate(['']);
+        },
+        error: (error) => {
+          if (error.status === 401) {
+            this.loginForm.setErrors({incorrectLoginOrPassword: true});
+          } else {
+            this.toastr.error('An error has occurred. Please try again later.', 'Error');
+          }
+        }
+      });
   }
 
   ngOnDestroy(): void {

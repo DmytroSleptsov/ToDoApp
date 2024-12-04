@@ -9,10 +9,10 @@ export function passwordMatchValidator(controlName: string, matchingControlName:
         return null;
       }
   
-      const error = control.value !== matchingControl.value ? { passwordMismatch: true } : null;
-  
-      matchingControl.setErrors(error);
-  
+      const error = control.value !== matchingControl.value 
+        ? { passwordMismatch: true } 
+        : null;
+
       return error;
     };
   }
