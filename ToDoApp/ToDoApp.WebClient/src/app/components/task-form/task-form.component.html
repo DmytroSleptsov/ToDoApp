@@ -20,6 +20,6 @@
                 class="form-check-input large-checkbox">
             <label for="isCompleted" class="form-check-label">Completed</label>
         </div>
-        <button type="submit" class="btn btn-primary w-100 py-2">Save</button>
+        <button type="submit" class="btn btn-primary w-100 py-2" [disabled]="taskForm.invalid">Save</button>
     </form>
 </div>

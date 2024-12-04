@@ -15,6 +15,6 @@
             </textarea>
             <label for="description">Description</label>
         </div>
-        <button type="submit" class="btn btn-primary w-100 py-2">Save</button>
+        <button type="submit" class="btn btn-primary w-100 py-2" [disabled]="taskForm.invalid">Save</button>
     </form>
 </div>

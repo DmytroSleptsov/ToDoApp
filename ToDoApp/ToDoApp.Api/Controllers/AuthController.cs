@@ -22,16 +22,34 @@ namespace ToDoApp.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var user = _mapper.Map<User>(request);
-            await _authService.RegisterAsync(user, request.Password);
-            return Ok(new { message = "User registered successfully" });
+            try
+            {
+                var user = _mapper.Map<User>(request);
+                await _authService.RegisterAsync(user, request.Password);
+                return Ok(new { message = "User registered successfully" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var token = await _authService.AuthenticateAsync(request.Email, request.Password);
-            return Ok(new { Token = token });
+            try
+            {
+                var token = await _authService.AuthenticateAsync(request.Email, request.Password);
+                return Ok(new { Token = token });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", details = ex.Message });
+            }
         }
     }
 }
