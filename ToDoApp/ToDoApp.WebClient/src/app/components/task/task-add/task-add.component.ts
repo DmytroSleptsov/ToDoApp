@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TaskService } from '../../services/task.service';
+import { TaskService } from '../../../services/task.service';
 import { Router } from '@angular/router';
 
-import { Task } from '../../models/task.model';
+import { Task } from '../../../models/task.model';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
