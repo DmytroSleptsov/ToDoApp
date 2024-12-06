@@ -65,7 +65,8 @@
                                     Password must be at least 6 characters.
                                 </div>
                                 <div *ngIf="registerForm.get('password')?.hasError('pattern')" class="text-danger">
-                                    Password must contain at least one uppercase letter and one number.
+                                    The password must contain at least one capital letter and one number and must
+                                    consist only of Latin letters and numbers.
                                 </div>
                             </div>
                         </div>
