@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../../models/task.model';
@@ -6,33 +6,38 @@ import { TaskService } from '../../../services/task.service';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { TaskAddComponent } from "../task-add/task-add.component";
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, TaskAddComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent implements OnInit, OnDestroy {
+  @ViewChild(TaskAddComponent) taskAddComponent!: TaskAddComponent;
+
   tasks: Task[] = [];
   private destroy$ = new Subject<void>();
 
   constructor(private taskService: TaskService, private router: Router) { }
 
   ngOnInit(): void {
-    this.taskService.getTasks()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((tasks) => {
-        this.tasks = tasks.reverse();
-      });
-
-    this.tasks = this.tasks.reverse()
+    this.loadTasks();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  loadTasks(): void {
+    this.taskService.getTasks()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((tasks) => {
+        this.tasks = tasks.reverse();
+      });
   }
 
   onRemoveTask(id: number, event: Event): void {
@@ -49,15 +54,27 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/tasks', id]);
   }
 
+  onOpenAddTaskModal() {
+    if (this.taskAddComponent) {
+      this.taskAddComponent.showModal();
+    }
+  }
+
   onCompleteTask(id: number, event: Event): void {
     event.stopPropagation();
 
     let task = this.tasks.find(task => task.id == id);
 
-    task!.isCompleted = !task!.isCompleted;
-    
-    this.taskService.updateTask(id, task!)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
+    if (task) {
+      task!.isCompleted = !task.isCompleted;
+
+      this.taskService.updateTask(id, task!)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe();
+    }
+  }
+
+  onAddTask(task: Task): void {
+    this.tasks = [task, ...this.tasks];
   }
 }
