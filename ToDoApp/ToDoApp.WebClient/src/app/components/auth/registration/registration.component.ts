@@ -18,6 +18,8 @@ export class RegistrationComponent implements OnDestroy {
   registerForm: FormGroup;
   private destroy$ = new Subject<void>();
 
+  passwordVisible: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -61,6 +63,10 @@ export class RegistrationComponent implements OnDestroy {
           }
         }
       });
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
   }
 
   ngOnDestroy(): void {

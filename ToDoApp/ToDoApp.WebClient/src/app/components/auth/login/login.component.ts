@@ -17,6 +17,8 @@ export class LoginComponent implements OnDestroy {
   loginForm: FormGroup;
   private destroy$ = new Subject<void>();
 
+  passwordVisible: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -43,12 +45,16 @@ export class LoginComponent implements OnDestroy {
         },
         error: (error) => {
           if (error.status === 401) {
-            this.loginForm.setErrors({incorrectLoginOrPassword: true});
+            this.loginForm.setErrors({ incorrectLoginOrPassword: true });
           } else {
             this.toastr.error('An error has occurred. Please try again later.', 'Error');
           }
         }
       });
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
   }
 
   ngOnDestroy(): void {
