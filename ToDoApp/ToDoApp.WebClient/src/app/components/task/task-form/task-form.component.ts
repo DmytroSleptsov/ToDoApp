@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Task } from '../../../models/task.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../../services/task.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-task-form',
@@ -13,10 +15,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.scss'
 })
-export class TaskFormComponent implements OnInit, OnDestroy {
-
+export class TaskFormComponent implements OnDestroy, AfterViewInit {
   taskForm: FormGroup;
   private destroy$ = new Subject<void>();
+  @ViewChild('taskFormModal') taskFormModal!: ElementRef;
+  @Output() dataSubmitted = new EventEmitter<Task>();
+  private modalInstance: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,22 +28,11 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     private taskService: TaskService,
     private router: Router,
   ) {
-    this.taskForm = formBuilder.group({
-      id: [null],
-      name: ['', Validators.required],
-      description: [''],
-      isCompleted: [false]
-    });
+    this.taskForm = this.createTaskForm();
   }
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-
-    this.taskService.getTask(+id!)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(task => {
-        this.taskForm.patchValue(task);
-      })
+  ngAfterViewInit(): void {
+    this.initializeModal();
   }
 
   ngOnDestroy(): void {
@@ -53,8 +46,48 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       this.taskService.updateTask(task.id, task)
         .pipe(takeUntil(this.destroy$))
         .subscribe(() => {
-          this.router.navigate([''])
+          this.dataSubmitted.emit(task);
+          this.modalInstance.hide();
+          this.resetForm();
         });
+    }
+  }
+
+  showModal(id: number): void {
+    this.resetForm();
+
+    this.taskService.getTask(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(task => {
+        this.taskForm.patchValue(task);
+      })
+
+    this.modalInstance?.show();
+  }
+
+  resetForm(): void {
+    this.taskForm.reset({
+      name: '',
+      description: '',
+      isCompleted: false,
+    });
+    this.taskForm.markAsPristine();
+    this.taskForm.markAsUntouched();
+    this.taskForm.updateValueAndValidity();
+  }
+
+  private createTaskForm(): FormGroup {
+    return this.formBuilder.group({
+      id: [null],
+      name: ['', Validators.required],
+      description: [''],
+      isCompleted: [false]
+    });
+  }
+
+  private initializeModal(): void {
+    if (this.taskFormModal?.nativeElement) {
+      this.modalInstance = new bootstrap.Modal(this.taskFormModal.nativeElement);
     }
   }
 }

@@ -21,7 +21,7 @@ declare var bootstrap: any;
 export class TaskAddComponent implements OnDestroy, AfterViewInit {
   taskForm: FormGroup;
   private destroy$ = new Subject<void>();
-  @ViewChild('addTaskModal') addTaskModal!: ElementRef;
+  @ViewChild('taskAddModal') taskAddModal!: ElementRef;
   @Output() dataSubmitted = new EventEmitter<Task>();
 
   private modalInstance: any;
@@ -81,8 +81,8 @@ export class TaskAddComponent implements OnDestroy, AfterViewInit {
   }
 
   private initializeModal(): void {
-    if (this.addTaskModal?.nativeElement) {
-      this.modalInstance = new bootstrap.Modal(this.addTaskModal.nativeElement);
+    if (this.taskAddModal?.nativeElement) {
+      this.modalInstance = new bootstrap.Modal(this.taskAddModal.nativeElement);
     }
   }
 }
