@@ -7,16 +7,18 @@ import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { TaskAddComponent } from "../task-add/task-add.component";
+import { TaskFormComponent } from '../task-form/task-form.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, TaskAddComponent],
+  imports: [FormsModule, CommonModule, RouterModule, TaskAddComponent, TaskFormComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent implements OnInit, OnDestroy {
   @ViewChild(TaskAddComponent) taskAddComponent!: TaskAddComponent;
+  @ViewChild(TaskFormComponent) taskFormComponent!: TaskFormComponent;
 
   tasks: Task[] = [];
   private destroy$ = new Subject<void>();
@@ -50,11 +52,13 @@ export class TaskListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onOpenTask(id: number) {
-    this.router.navigate(['/tasks', id]);
+  onOpenTaskFormModal(id: number) {
+    if(this.taskFormComponent){
+      this.taskFormComponent.showModal(id);
+    }
   }
 
-  onOpenAddTaskModal() {
+  onOpenTaskAddModal() {
     if (this.taskAddComponent) {
       this.taskAddComponent.showModal();
     }
@@ -76,5 +80,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   onAddTask(task: Task): void {
     this.tasks = [task, ...this.tasks];
+  }
+
+  onUpdateTask(task: Task): void {
+
   }
 }
