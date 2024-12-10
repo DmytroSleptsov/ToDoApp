@@ -27,6 +27,11 @@ namespace ToDoApp.Core.Services
             return await _taskRepository.GetTasksByUser(userId);
         }
 
+        public async Task<List<Data.Models.Task>> GetProjectAllTasks(int projectId)
+        {
+            return await _taskRepository.GetTasksByProject(projectId);
+        }
+
         public async Task<Data.Models.Task> GetTaskById(int id)
         {
             return await _taskRepository.GetById(id);
