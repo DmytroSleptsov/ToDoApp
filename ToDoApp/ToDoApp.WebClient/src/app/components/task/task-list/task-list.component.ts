@@ -83,6 +83,10 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   onUpdateTask(task: Task): void {
-
+    this.tasks.map((elem, index, array) => {
+      if(task.id == elem.id){
+        array[index] = task;
+      }
+    });
   }
 }
