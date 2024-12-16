@@ -55,13 +55,16 @@ namespace ToDoApp.Api.Controllers
             return Ok(taskDto);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> CreateTask([FromBody]CreateTaskDto createTaskDto)
+        [HttpPost("project/{projectId}")]
+        public async Task<ActionResult> CreateTask(
+            int projectId,
+            [FromBody]CreateTaskDto createTaskDto)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var task = _mapper.Map<ToDoTask>(createTaskDto);
             task.UserId = int.Parse(userId!);
+            task.ProjectId = projectId;
 
             await _taskService.CreateTask(task);
 

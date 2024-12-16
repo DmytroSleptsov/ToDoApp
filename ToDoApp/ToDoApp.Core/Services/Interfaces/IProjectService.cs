@@ -10,5 +10,6 @@ namespace ToDoApp.Core.Services.Interfaces
         Task CreateProject(Project project);
         Task UpdateProject(Project project);
         Task DeleteProject(int id);
+        void CreateDefaultProjectAsync(User user);
     }
 }

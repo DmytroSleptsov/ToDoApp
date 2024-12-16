@@ -8,6 +8,7 @@ using ToDoApp.Core.Services.Interfaces;
 using ToDoApp.Data;
 using ToDoApp.Data.Repositories;
 using ToDoApp.Data.Repositories.Interfaces;
+using ToDoApp.Data.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +53,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TasksDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();

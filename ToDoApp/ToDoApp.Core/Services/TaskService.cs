@@ -1,45 +1,47 @@
 ﻿using ToDoApp.Core.Services.Interfaces;
-using ToDoApp.Data.Repositories.Interfaces;
+using ToDoApp.Data.UnitOfWork;
 
 namespace ToDoApp.Core.Services
 {
     public class TaskService : ITaskService
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TaskService(ITaskRepository taskRepository)
+        public TaskService(IUnitOfWork unitOfWork)
         {
-            _taskRepository = taskRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task CreateTask(Data.Models.Task task)
         {
-            await _taskRepository.Add(task);
+            _unitOfWork.Tasks.Add(task);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task DeleteTask(int id)
         {
-            await _taskRepository.Delete(id);
+            await _unitOfWork.Tasks.Delete(id);
         }
 
         public async Task<List<Data.Models.Task>> GetUserAllTasks(int userId)
         {
-            return await _taskRepository.GetTasksByUser(userId);
+            return await _unitOfWork.Tasks.GetTasksByUser(userId);
         }
 
         public async Task<List<Data.Models.Task>> GetProjectAllTasks(int projectId)
         {
-            return await _taskRepository.GetTasksByProject(projectId);
+            return await _unitOfWork.Tasks.GetTasksByProject(projectId);
         }
 
         public async Task<Data.Models.Task> GetTaskById(int id)
         {
-            return await _taskRepository.GetById(id);
+            return await _unitOfWork.Tasks.GetById(id);
         }
 
         public async Task UpdateTask(Data.Models.Task task)
         {
-            await _taskRepository.Update(task);
+            _unitOfWork.Tasks.Update(task);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }
