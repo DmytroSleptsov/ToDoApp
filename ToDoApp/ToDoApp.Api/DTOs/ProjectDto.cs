@@ -8,5 +8,6 @@ namespace ToDoApp.Api.DTOs
 
         [Required]
         public string Name { get; set; } = string.Empty;
+        public bool IsDefault { get; set; }
     }
 }

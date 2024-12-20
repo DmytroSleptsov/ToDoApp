@@ -32,7 +32,7 @@ namespace ToDoApp.Api.Controllers
             return Ok(taskDtos);
         }
 
-        [HttpGet("project/{projectId}")]
+        [HttpGet("project/{projectId}/task")]
         public async Task<ActionResult<List<TaskDto>>> GetTasksByProjectId(int projectId)
         {
             var tasks = await _taskService.GetProjectAllTasks(projectId);
@@ -55,16 +55,13 @@ namespace ToDoApp.Api.Controllers
             return Ok(taskDto);
         }
 
-        [HttpPost("project/{projectId}")]
-        public async Task<ActionResult> CreateTask(
-            int projectId,
-            [FromBody]CreateTaskDto createTaskDto)
+        [HttpPost]
+        public async Task<ActionResult> CreateTask([FromBody]CreateTaskDto createTaskDto)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var task = _mapper.Map<ToDoTask>(createTaskDto);
             task.UserId = int.Parse(userId!);
-            task.ProjectId = projectId;
 
             await _taskService.CreateTask(task);
 

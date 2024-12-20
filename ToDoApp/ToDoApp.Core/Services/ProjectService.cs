@@ -25,6 +25,7 @@ namespace ToDoApp.Core.Services
         public async Task DeleteProject(int id)
         {
             await _unitOfWork.Projects.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<Project> GetProjectById(int id)

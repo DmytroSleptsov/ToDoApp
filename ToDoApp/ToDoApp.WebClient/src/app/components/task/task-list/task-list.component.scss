@@ -5,19 +5,15 @@ input[type="checkbox"] {
 }
 
 .wrapper {
-    margin-top: 80px;
+    margin: 20px;
+    display: flex;
 }
 
 .break-word {
-    @media (min-width: 1200px) {
-        width: 450px;
-    }
-    @media (min-width:500px) and (max-width: 1200px) {
-        width: 300px;
-    }
+    width: 150px;
 }
 
-.card {
+.task {
     transition: all 0.3s;
     cursor: pointer;
 
@@ -31,4 +27,40 @@ input[type="checkbox"] {
     white-space: nowrap;        
     overflow: hidden;        
     text-overflow: ellipsis;         
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.project-list {
+    list-style: none;
+    padding: 0;
+}
+
+.project-list li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.project-list li:hover {
+    background-color: #e0e0e0;
+}
+
+.project{
+    min-width: 300px;
 }

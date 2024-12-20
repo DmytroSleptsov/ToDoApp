@@ -21,6 +21,7 @@ namespace ToDoApp.Core.Services
         public async Task DeleteTask(int id)
         {
             await _unitOfWork.Tasks.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<List<Data.Models.Task>> GetUserAllTasks(int userId)

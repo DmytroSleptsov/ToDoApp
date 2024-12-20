@@ -1,7 +1,7 @@
 <div class="modal fade" #taskAddModal data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-        <div id="wrapper" class=" p-5  rounded shadow-lg">
+        <div id="wrapper" class=" p-5 rounded shadow-lg">
             <h1 class="text-center mb-4 text-primary">Add Task</h1>
             <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
                 <div class="form-floating mb-4">
