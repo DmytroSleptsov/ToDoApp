@@ -152,4 +152,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
   onAddProject(project: Project): void {
     this.projects.push(project);
   }
+
+  trackById(index: number, item: { id: number }): number {
+    return item.id;
+  }
 }
