@@ -32,6 +32,15 @@ namespace ToDoApp.Api.Controllers
             return Ok(taskDtos);
         }
 
+        [HttpGet("project/{projectId}/task")]
+        public async Task<ActionResult<List<TaskDto>>> GetTasksByProjectId(int projectId)
+        {
+            var tasks = await _taskService.GetProjectAllTasks(projectId);
+
+            var taskDtos = _mapper.Map<List<TaskDto>>(tasks);
+            return Ok(taskDtos);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskDto>> GetTaskById(int id)
         {

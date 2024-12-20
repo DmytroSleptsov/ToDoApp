@@ -25,7 +25,9 @@ namespace ToDoApp.Api.Controllers
             try
             {
                 var user = _mapper.Map<User>(request);
-                await _authService.RegisterAsync(user, request.Password);
+                await _authService
+                    .RegisterUserWithDefaultProjectAsync(user, request.Password);
+
                 return Ok(new { message = "User registered successfully" });
             }
             catch (InvalidOperationException ex)

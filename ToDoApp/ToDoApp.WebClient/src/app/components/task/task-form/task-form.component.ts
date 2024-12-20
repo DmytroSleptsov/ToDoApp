@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild } from '@angular/core';
 import { Task } from '../../../models/task.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../../services/task.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
@@ -24,9 +23,7 @@ export class TaskFormComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private taskService: TaskService,
-    private router: Router,
   ) {
     this.taskForm = this.createTaskForm();
   }
@@ -70,6 +67,7 @@ export class TaskFormComponent implements OnDestroy, AfterViewInit {
       name: '',
       description: '',
       isCompleted: false,
+      projectId: 0
     });
     this.taskForm.markAsPristine();
     this.taskForm.markAsUntouched();
@@ -81,7 +79,8 @@ export class TaskFormComponent implements OnDestroy, AfterViewInit {
       id: [null],
       name: ['', Validators.required],
       description: [''],
-      isCompleted: [false]
+      isCompleted: [false],
+      projectId: [0]
     });
   }
 

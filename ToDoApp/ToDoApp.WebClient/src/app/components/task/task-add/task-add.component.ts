@@ -14,7 +14,7 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-task-add',
   standalone: true,
-  imports: [ ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './task-add.component.html',
   styleUrl: './task-add.component.scss'
 })
@@ -25,12 +25,14 @@ export class TaskAddComponent implements OnDestroy, AfterViewInit {
   @Output() dataSubmitted = new EventEmitter<Task>();
 
   private modalInstance: any;
+  private projectId: number;
 
   constructor(
     private formBuilder: FormBuilder,
     private taskService: TaskService
   ) {
     this.taskForm = this.createTaskForm();
+    this.projectId = 0;
   }
 
   ngOnDestroy(): void {
@@ -45,6 +47,7 @@ export class TaskAddComponent implements OnDestroy, AfterViewInit {
   onSubmit(): void {
     if (this.taskForm.valid) {
       let task: Task = this.taskForm.value;
+      task.projectId = this.projectId;
       this.taskService.createTask(task)
         .pipe(takeUntil(this.destroy$))
         .subscribe((task) => {
@@ -55,9 +58,10 @@ export class TaskAddComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  showModal(): void {
+  showModal(projectId: number): void {
     this.resetForm();
     this.modalInstance?.show();
+    this.projectId = projectId;
   }
 
   resetForm(): void {
@@ -65,6 +69,7 @@ export class TaskAddComponent implements OnDestroy, AfterViewInit {
       name: '',
       description: '',
       isCompleted: false,
+      projectId: 0
     });
 
     this.taskForm.markAsPristine();
@@ -76,7 +81,8 @@ export class TaskAddComponent implements OnDestroy, AfterViewInit {
     return this.formBuilder.group({
       name: ['', Validators.required],
       description: [''],
-      isCompleted: [false]
+      isCompleted: [false],
+      projectId: [0]
     });
   }
 
