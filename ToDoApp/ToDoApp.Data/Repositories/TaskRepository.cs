@@ -4,9 +4,16 @@ using ToDoTask = ToDoApp.Data.Models.Task;
 
 namespace ToDoApp.Data.Repositories
 {
-    public class TaskRepository : BaseRepository<Data.Models.Task>, ITaskRepository
+    public class TaskRepository : BaseRepository<ToDoTask>, ITaskRepository
     {
         public TaskRepository(TasksDbContext tasksDbContext) : base(tasksDbContext) { }
+
+        public async Task<List<ToDoTask>> GetTasksByProject(int projectId)
+        {
+            return await _dbContext.Set<ToDoTask>()
+                .Where(task => task.ProjectId == projectId)
+                .ToListAsync();
+        }
 
         public async Task<List<ToDoTask>> GetTasksByUser(int userId)
         {

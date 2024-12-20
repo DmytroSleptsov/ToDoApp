@@ -5,6 +5,7 @@ namespace ToDoApp.Core.Services.Interfaces
     public interface ITaskService
     {
         Task<List<ToDoTask>> GetUserAllTasks(int userId);
+        Task<List<ToDoTask>> GetProjectAllTasks(int projectId);
         Task<ToDoTask> GetTaskById(int id);
         Task CreateTask(ToDoTask task);
         Task UpdateTask(ToDoTask task);

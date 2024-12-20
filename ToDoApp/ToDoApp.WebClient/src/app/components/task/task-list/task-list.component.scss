@@ -1,0 +1,66 @@
+input[type="checkbox"] {
+    height: 38px;
+    width: 38px;
+    cursor: pointer;
+}
+
+.wrapper {
+    margin: 20px;
+    display: flex;
+}
+
+.break-word {
+    width: 150px;
+}
+
+.task {
+    transition: all 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #abf7b1;
+        transform: scale(1.05);
+    }
+}
+
+.text-ellipsis {
+    white-space: nowrap;        
+    overflow: hidden;        
+    text-overflow: ellipsis;         
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.project-list {
+    list-style: none;
+    padding: 0;
+}
+
+.project-list li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.project-list li:hover {
+    background-color: #e0e0e0;
+}
+
+.project{
+    min-width: 300px;
+}

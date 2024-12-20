@@ -8,7 +8,7 @@ namespace ToDoApp.Data.Repositories
     {
         public UserRepository(TasksDbContext tasksDbContext) : base(tasksDbContext) { }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _dbContext.Set<User>()
                 .FirstOrDefaultAsync(user => user.Email == email);

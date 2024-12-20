@@ -11,6 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Core", "ToDoApp.Cor
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ToDoApp.WebClient", "ToDoApp.WebClient\ToDoApp.WebClient.esproj", "{474CD40A-E9B5-4A88-8B74-64319F797F0D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{91288BA9-4C74-4E60-B1F9-5392CBC96DE2}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

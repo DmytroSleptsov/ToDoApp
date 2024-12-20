@@ -13,6 +13,10 @@ namespace ToDoApp.Api.Mapping
             CreateMap<CreateTaskDto, ToDoTask>();
             CreateMap<TaskDto, ToDoTask>();
 
+            CreateMap<Project, ProjectDto>();
+            CreateMap<CreateProjectDto, Project>();
+            CreateMap<ProjectDto, Project>();
+
             CreateMap<RegisterRequest, User>();
         }
     }

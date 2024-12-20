@@ -13,5 +13,6 @@
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public List<Task> Tasks { get; set; } = [];
+        public List<Project> Projects { get; set; } = [];
     }
 }
