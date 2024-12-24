@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +13,25 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'ToDoApp';
-
-  get isAuthenticated(): boolean {
-    return this.authService.isAuthenticated;
-  }
+  isAuthenticated = false;
+  
+  private tokenSubscription: Subscription | null = null;;
 
   constructor(private authService: AuthService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.tokenSubscription = this.authService.token$.subscribe(token => {
+      this.isAuthenticated = !!token;
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.tokenSubscription) {
+      this.tokenSubscription.unsubscribe();
+    }
+  }
 
   logout(): void {
     this.authService.removeToken();

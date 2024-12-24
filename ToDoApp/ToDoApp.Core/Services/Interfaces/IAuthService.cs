@@ -5,7 +5,7 @@ namespace ToDoApp.Core.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task RegisterAsync(User user, string password);
+        Task RegisterUserWithDefaultProjectAsync(User user, string password);
         Task<string> AuthenticateAsync(string email, string password);
     }
 }

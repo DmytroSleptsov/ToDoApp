@@ -17,7 +17,7 @@ namespace ToDoApp.Data.Repositories
         {
             var entity = await _dbContext.Set<T>()
                 .FindAsync(id);
-            if (entity == null)
+            if (entity is null)
             {
                 throw new InvalidOperationException($"{typeof(T).Name} with id {id} not found.");
             }
@@ -31,29 +31,25 @@ namespace ToDoApp.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task Add(T entity)
+        public void Add(T entity)
         {
             _dbContext.Add(entity);
-            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(T entity)
+        public void Update(T entity)
         {
             _dbContext.Update(entity);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
         {
             var entity = await _dbContext.Set<T>().FindAsync(id);
-            if (entity == null)
+            if (entity is null)
             {
                 throw new InvalidOperationException($"{typeof(T).Name} with id {id} not found.");
             }
 
             _dbContext.Remove(entity);
-
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,0 +1,24 @@
+#wrapper {
+    max-width: 600px;
+}
+
+h1 {
+    font-weight: 600;
+}
+
+.btn-primary {
+    font-size: 1.2rem;
+}
+
+.form-control:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+}
+
+small{
+    color: red;
+}
+
+#description{
+    height: 200px;
+}

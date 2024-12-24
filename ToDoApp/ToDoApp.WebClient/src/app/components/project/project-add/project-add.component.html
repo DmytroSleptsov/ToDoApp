@@ -1,0 +1,22 @@
+<div class="modal fade" #projectAddModal data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="wrapper" class=" p-5 rounded shadow-lg">
+                <h1 class="text-center mb-4 text-primary">Add List</h1>
+                <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+                    <div class="form-floating mb-4">
+                        <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                            placeholder="Name" required>
+                        <label for="name">Name</label>
+                        <div *ngIf="projectForm.get('name')?.invalid && projectForm.get('name')?.touched">
+                            <small *ngIf="projectForm.get('name')?.errors?.['required']">Name is required.</small>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2"
+                        [disabled]="projectForm.invalid">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
